@@ -10,11 +10,11 @@ int main(int argc, char* argv[] ) {
         for (i = 1; i < argc; i++) {
             strcpy(input,argv[i]);/*copy and add .as to the input*/
             strcat(input,".as");
-            if((fp = fopen(input,"r"))==NULL)/*file dose not exist*/
+            if(!(fp = fopen(input,"r")))/*file dose not exist*/
                 fprintf(stderr, "File not found\n");
             else{
-                firstrun();
-                secondrun();
+                firstRun();
+                /*secondrun();*/
                 fclose(fp);
             }
 
