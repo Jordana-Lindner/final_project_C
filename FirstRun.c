@@ -88,9 +88,7 @@ void addData() {
                 fprintf(stderr, "Multiple consecutive commas\n");
                 return;
         }
-        if(!getVar()){
 
-        }
        needComma=1;
         }
     }
@@ -108,9 +106,6 @@ int checkComma(){
     return commaCount;
 }
 
-bool getVar(){
-
-}
 
 
 void addSign(char label[50], char character[50]) {
