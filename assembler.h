@@ -15,6 +15,7 @@ SNode* shead ;
 
 typedef union Data{
     int num;
+    char ch;
 }Data;
 
 typedef struct DNode {

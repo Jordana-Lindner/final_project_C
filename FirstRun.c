@@ -5,7 +5,8 @@
 char label[50];
 
 bool isLabel(char param1[50]);
-int checkComma();
+
+bool checkComma();
 
 int isGuide(char *param);
 
@@ -16,6 +17,10 @@ void addData();
 void pointAfterParam();
 
 void getParam();
+
+void getVar();
+
+void addString();
 
 SNode *curSNode;
 DNode *curDNode;
@@ -48,15 +53,57 @@ void firstRun() {
                 //getParam();
                 addData();
             }
+            case 2: {
+
+                if (labelFlag)
+                    addSign(label, "data");
+                //getParam();
+                addString();
+            }
         }
 
 
     }
 }
 
+void addString() {
+    int check = 0;
+    skipWhite();
+    if (*p == ',') {
+        printf("bad place for comma");
+        return;
+    }
+    if (*p == '\n') {
+        printf("missing data");
+        return;
+    }
+    getVar();
+    printf("%d: %s\n", check, param);
+    while (*p != '\0') {
+        check++;
+        if (!checkComma()) {
+            return;
+        } else {
+            getVar();
+            printf("%d: %s\n", check, param);
+            if (!atoi(param)) {
+                printf("wrong input for data");
+                return;
+            } else {
+                curDNode->data.num = atoi(param);
+                SNode *newSNode = (SNode *) malloc(sizeof(SNode));
+                curSNode->next = newSNode;
+                curSNode = newSNode;
+            }
+
+        }
+    }
+}
+
+
 void getParam() {
     skipWhite();
-    sscanf(p, "%s 255[^,]", param);
+    sscanf(p, "%s", param);
     skipWhite();
     pointAfterParam();
 }
@@ -66,46 +113,82 @@ void pointAfterParam() {
 }
 
 void addData() {
-    bool needComma = 0;
-    int commaCounter = 0;
-    int num;
-    if(checkComma()!=0){
-        printf("misplaced comma");
-        return;}
-
-    if (*p == '\0') {
-        fprintf(stderr, "missing data\n");
+    int check = 0;
+    skipWhite();
+    if (*p == ',') {
+        printf("bad place for comma");
         return;
     }
-
+    if (*p == '\n') {
+        printf("missing data");
+        return;
+    }
+    getVar();
+    printf("%d: %s\n", check, param);
     while (*p != '\0') {
-        if (needComma)
-            if(checkComma()==0){
-                fprintf(stderr, "Missing comma\n");
+        check++;
+        if (!checkComma()) {
+            return;
+        } else {
+            getVar();
+            printf("%d: %s\n", check, param);
+            if (!atoi(param)) {
+                printf("wrong input for data");
                 return;
+            } else {
+                curDNode->data.num = atoi(param);
+                SNode *newSNode = (SNode *) malloc(sizeof(SNode));
+                curSNode->next = newSNode;
+                curSNode = newSNode;
             }
-            if(checkComma()>1){
-                fprintf(stderr, "Multiple consecutive commas\n");
-                return;
+
         }
 
-       needComma=1;
-        }
     }
 
+}
 
-int checkComma(){
-    int commaCount =0;
+void getVar() {
     skipWhite();
+    sscanf(p, "%[^,]", param);
+    skipWhite();
+    pointAfterParam();
+}
+
+bool checkComma() {
+    skipWhite();
+    int counter = 0;
     /*check if the first letter (after skipWhite is a comma and looks for multiple commas*/
+    while (*p == ',') {
+        counter++;
+        p++;
+        skipWhite();
+    }
+    if (counter == 0) {
+        printf("Missing comma\n");
+        return false;
+        /*more then one comma*/
+    } else if (counter > 1) {
+        printf("Multiple consecutive commas\n");
+        return false;
+    }
+    return true;
+    /*  int commaCount = 0;
+      skipWhite();
+      *//*check if the first letter (after skipWhite is a comma and looks for multiple commas*//*
     while (strncmp(p, ",", 1) == 0) {
         commaCount++;
         p++;
         skipWhite();
     }
-    return commaCount;
+    if (commaCount == 0) {
+        return 0;
+    } else if (commaCount > 1) {
+        fprintf(stderr, "Multiple consecutive commas\n");
+        return 0;
+    } else
+        return 1;*/
 }
-
 
 
 void addSign(char label[50], char character[50]) {
