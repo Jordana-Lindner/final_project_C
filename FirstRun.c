@@ -1,106 +1,120 @@
 
-#include <stdbool.h>
 #include "FirstRun.h"
 
-char label[50];
-
-bool isLabel(char param1[50]);
-
-bool checkComma();
-
-int isGuide(char *param);
-
-void addSign(char label[50], char character[5]);
-
-void addData();
-
-void pointAfterParam();
-
-void getParam();
-
-void getVar();
-
-void addString();
-
-SNode *curSNode;
-DNode *curDNode;
-bool labelFlag = 0;
-char line[MAX_LENGTH];
-char *p;
-char param[MAX_LENGTH];
-
+/*start first run */
 void firstRun() {
-
+    /*new heads for linked lists */
     shead = (SNode *) malloc(sizeof(SNode));
     curSNode = shead;
     dhead = (DNode *) malloc(sizeof(DNode));
     curDNode = dhead;
 
-
-    //while (!feof(fp)) {
+    /*while file has a line*/
     while (fgets(line, MAX_LENGTH, fp)) {
+        /*points to first letter in line*/
         p = line;
         getParam();
+        /*turn on flag if there is a sign*/
         labelFlag = isLabel(param);
+        /*gets next param*/
         if (labelFlag) {
             getParam();
         }
+        /*if its a guide command (.data/.string/.extern/.entry)*/
         switch (isGuide(param)) {
+            /*.data guide */
             case 1: {
 
                 if (labelFlag)
-                    addSign(label, "data");
+                    addSign(label, "data", DC);
                 //getParam();
                 addData();
             }
+                break;
+                /*.string guide */
             case 2: {
 
                 if (labelFlag)
-                    addSign(label, "data");
+                    addSign(label, "data", DC);
                 //getParam();
                 addString();
             }
+                break;
+                /*entry guide*/
+            case 3: {
+            }
+                break;
+                /*extern guide*/
+            case 4: {
+                getParam();
+                addSign(param, "external", 0);
+            }
+                break;
+            default: {
+
+            }
+                break;
         }
 
 
     }
 }
 
+
+/*method to add string data into data image
+ *
+ * needs - a.to check the string
+ *         b. check extranous data
+ * */
 void addString() {
     int check = 0;
     skipWhite();
-    if (*p == ',') {
-        printf("bad place for comma");
-        return;
-    }
+    /*if nothing to add to data*/
     if (*p == '\n') {
-        printf("missing data");
+        printf("missing data\n");
         return;
     }
-    getVar();
-    printf("%d: %s\n", check, param);
-    while (*p != '\0') {
-        check++;
-        if (!checkComma()) {
-            return;
-        } else {
-            getVar();
-            printf("%d: %s\n", check, param);
-            if (!atoi(param)) {
-                printf("wrong input for data");
-                return;
-            } else {
-                curDNode->data.num = atoi(param);
-                SNode *newSNode = (SNode *) malloc(sizeof(SNode));
-                curSNode->next = newSNode;
-                curSNode = newSNode;
-            }
-
-        }
+    /*dosnt start string with " */
+    if (*p != '\"') {
+        printf("has to start with \" \n");
+        return;
     }
+    p++;
+    skipWhite();
+    if (!isalpha(*p)) { //maybe needs to be changed to isascii
+        printf("missing char\n");
+        return;
+    }
+    /*while not end of line or end of string*/
+    while (*p != '\0' && *p != '\"') {
+        /*adds the char to data linked list*/
+        curDNode->data.ch = *p;
+        DNode *newDNode = (DNode *) malloc(sizeof(DNode));
+
+        printf("%c\n", curDNode->data.ch);
+
+        curDNode->next = newDNode;
+        curDNode = newDNode;
+
+        DC++;
+        p++;
+        skipWhite();
+    }
+    /*check if last char is "*/
+    if (*p != '\"') {
+        printf("has to end with \" \n");
+        return;
+    }
+    /*adds the char \0 at the end of linked list*/
+    curDNode->data.ch = '\0';
+    DNode *newDNode = (DNode *) malloc(sizeof(DNode));
+    curDNode->next = newDNode;
+    curDNode = newDNode;
+    DC++;
+
 }
 
-
+/*gets parameter from line*/
 void getParam() {
     skipWhite();
     sscanf(p, "%s", param);
@@ -108,38 +122,65 @@ void getParam() {
     pointAfterParam();
 }
 
+/*move pointer after last parameter*/
 void pointAfterParam() {
     p += strlen(param);
 }
 
+/*adds data to data linked list*
+ *
+ * needs- a. return error if comma after last var*/
+
 void addData() {
-    int check = 0;
+    int check = 0;//temporary check
     skipWhite();
+
+    /*if starts with comma*/
     if (*p == ',') {
-        printf("bad place for comma");
+        printf("bad place for comma\n");
         return;
     }
+    /*if empty data*/
     if (*p == '\n') {
-        printf("missing data");
+        printf("missing data\n");
         return;
     }
     getVar();
-    printf("%d: %s\n", check, param);
+    /*if not a number*/
+    if (!atoi(param)) {
+        printf("wrong input for data\n");
+        return;
+    }
+    /*insert data to linked list*/
+    curDNode->data.num = atoi(param);
+    printf("%d: %d\n", check, atoi(param));
+    DNode *newDNode = (DNode *) malloc(sizeof(DNode));
+    curDNode->next = newDNode;
+    curDNode = newDNode;
+
+    DC++;
+
+/*while not end of line*/
     while (*p != '\0') {
         check++;
+        /*if missing comma or mult commas*/
         if (!checkComma()) {
             return;
+
         } else {
             getVar();
-            printf("%d: %s\n", check, param);
+
             if (!atoi(param)) {
-                printf("wrong input for data");
+                printf("wrong input for data\n");
                 return;
             } else {
+                /*insert data*/
                 curDNode->data.num = atoi(param);
-                SNode *newSNode = (SNode *) malloc(sizeof(SNode));
-                curSNode->next = newSNode;
-                curSNode = newSNode;
+                printf("%d: %d\n", check, atoi(param));
+                DNode *newDNode = (DNode *) malloc(sizeof(DNode));
+                curDNode->next = newDNode;
+                curDNode = newDNode;
+                DC++;
             }
 
         }
@@ -148,6 +189,7 @@ void addData() {
 
 }
 
+/*get a var diveded by commas */
 void getVar() {
     skipWhite();
     sscanf(p, "%[^,]", param);
@@ -155,15 +197,26 @@ void getVar() {
     pointAfterParam();
 }
 
+/*checks if has comma ot not or have multiple commas*/
 bool checkComma() {
-    skipWhite();
+    /*if got two vars with no comma to sparate between them*/
+    char check1[MAX_LENGTH];
+    char check2[MAX_LENGTH];
     int counter = 0;
+    if (sscanf(param, "%s %s", check1, check2) > 1) {
+        printf("Missing comma\n");
+        return false;
+    }
+    skipWhite();
+
+
     /*check if the first letter (after skipWhite is a comma and looks for multiple commas*/
     while (*p == ',') {
         counter++;
         p++;
         skipWhite();
     }
+    /*missing comma*/
     if (counter == 0) {
         printf("Missing comma\n");
         return false;
@@ -173,28 +226,14 @@ bool checkComma() {
         return false;
     }
     return true;
-    /*  int commaCount = 0;
-      skipWhite();
-      *//*check if the first letter (after skipWhite is a comma and looks for multiple commas*//*
-    while (strncmp(p, ",", 1) == 0) {
-        commaCount++;
-        p++;
-        skipWhite();
-    }
-    if (commaCount == 0) {
-        return 0;
-    } else if (commaCount > 1) {
-        fprintf(stderr, "Multiple consecutive commas\n");
-        return 0;
-    } else
-        return 1;*/
+
 }
 
-
-void addSign(char label[50], char character[50]) {
+/*adds to sign table*/
+void addSign(char label[50], char character[50], int value) {
 
     strcpy(curSNode->sign.label, label);
-    curSNode->sign.value = (IC + DC);
+    curSNode->sign.value = (value);
     strcpy(curSNode->sign.car, character);
 
     SNode *newSNode = (SNode *) malloc(sizeof(SNode));
@@ -202,7 +241,7 @@ void addSign(char label[50], char character[50]) {
     curSNode = newSNode;
 
 }
-
+/*if its a guide command*/
 int isGuide(char param[50]) {
     if (!strcmp(param, ".data"))
         return 1;
@@ -215,7 +254,7 @@ int isGuide(char param[50]) {
 
     return 0;
 }
-
+/*checks of its a lable to turn on label flag*/
 bool isLabel(char param[50]) {
     int length = strlen(param);
     if (*param < 'A' || (*param > 'Z' && *param < 'a') || *param > 'z')
@@ -228,6 +267,7 @@ bool isLabel(char param[50]) {
     return 0;
 }
 
+/*points pointer p after white space*/
 void skipWhite() {
     while (isspace(*p))
         p++;
