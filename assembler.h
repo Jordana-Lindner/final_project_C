@@ -1,5 +1,13 @@
+#include "functionsForAssembler.h"
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <stdbool.h>
+
+
 typedef struct{
     char label[50];
     int value;
@@ -28,4 +36,4 @@ DNode* dhead;
 void firstRun();
 void secondRun();
 /*void secondRun();*/
-void skipWhite();
+
