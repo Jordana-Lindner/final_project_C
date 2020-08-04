@@ -14,7 +14,7 @@ int main(int argc, char* argv[] ) {
                 fprintf(stderr, "File not found\n");
             else{
                 firstRun();
-                /*secondrun();*/
+                secondRun();
                 fclose(fp);
             }
 

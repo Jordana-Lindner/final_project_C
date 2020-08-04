@@ -26,5 +26,6 @@ typedef struct DNode {
 DNode* dhead;
 
 void firstRun();
+void secondRun();
 /*void secondRun();*/
 void skipWhite();
