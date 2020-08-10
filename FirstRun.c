@@ -4,10 +4,10 @@
 /*start first run */
 void firstRun() {
     /*new heads for linked lists */
-    shead = (SNode *) malloc(sizeof(SNode));
-    curSNode = shead;
-    dhead = (DNode *) malloc(sizeof(DNode));
-    curDNode = dhead;
+    sHead = (symboleTabel *) malloc(sizeof(symboleTabel));
+    curSNode = sHead;
+    dHead = (dataNode *) malloc(sizeof(dataNode));
+    curDNode = dHead;
 
     /*while file has a line*/
     while (fgets(line, MAX_LENGTH, fp)) {
@@ -46,16 +46,28 @@ void firstRun() {
                 break;
                 /*extern guide*/
             case 4: {
+                if(labelFlag){
+                    printf("cant put .extern after label");
+                    return;
+                }
                 getParam();
+                if (*param == '\n')
+                {
+                    printf("missing extern label");
+                    return;
+                }
                 addSign(param, "external", 0);
             }
                 break;
             default: {
-
+                if (labelFlag) {
+                    addSign(label, "code", IC);
+                }
+                get_opcode(param);
             }
                 break;
         }
-
+/*go over symbolTabel and add 100 to value*/
 
     }
 }
@@ -89,7 +101,7 @@ void addString() {
     while (*p != '\0' && *p != '\"') {
         /*adds the char to data linked list*/
         curDNode->data.ch = *p;
-        DNode *newDNode = (DNode *) malloc(sizeof(DNode));
+        dataNode *newDNode = (dataNode *) malloc(sizeof(dataNode));
 
         printf("%c\n", curDNode->data.ch);
 
@@ -107,7 +119,7 @@ void addString() {
     }
     /*adds the char \0 at the end of linked list*/
     curDNode->data.ch = '\0';
-    DNode *newDNode = (DNode *) malloc(sizeof(DNode));
+    dataNode *newDNode = (dataNode *) malloc(sizeof(dataNode));
     curDNode->next = newDNode;
     curDNode = newDNode;
     DC++;
@@ -145,7 +157,7 @@ void addData() {
     /*insert data to linked list*/
     curDNode->data.num = atoi(param);
     printf("%d: %d\n", check, atoi(param));
-    DNode *newDNode = (DNode *) malloc(sizeof(DNode));
+    dataNode *newDNode = (dataNode *) malloc(sizeof(dataNode));
     curDNode->next = newDNode;
     curDNode = newDNode;
 
@@ -168,7 +180,7 @@ void addData() {
                 /*insert data*/
                 curDNode->data.num = atoi(param);
                 printf("%d: %d\n", check, atoi(param));
-                DNode *newDNode = (DNode *) malloc(sizeof(DNode));
+                dataNode *newDNode = (dataNode *) malloc(sizeof(dataNode));
                 curDNode->next = newDNode;
                 curDNode = newDNode;
                 DC++;
@@ -227,12 +239,70 @@ void addSign(char label[50], char character[50], int value) {
     curSNode->sign.value = (value);
     strcpy(curSNode->sign.car, character);
 
-    SNode *newSNode = (SNode *) malloc(sizeof(SNode));
+    symboleTabel *newSNode = (symboleTabel *) malloc(sizeof(symboleTabel));
     curSNode->next = newSNode;
     curSNode = newSNode;
 
 }
 
+int validate_command(char *opcode){
+    int i;
+    for( i=0; i<TOTAL_OP; i++){
+        if(!(strcmp(opcode,opTable[i].opName))){
+            return i;
+        }
+    }
+    return -1;
+}
 
 
+void get_opcode(char *opcode) {
+    int opInd;
+    char *sourceOP = NULL, *targOP = NULL, *nonValOP = NULL;
+    Chead = (CNode *) malloc(sizeof(CNode));
+    curCNode = Chead;
+    if (opInd = validate_command(opcode) != -1) {
+        if (opTable[opInd].oprndN == 2) {
+        }
+        getParam();
+        strcpy(sourceOP, param);
+        getParam();
+        strcpy(targOP, param);
+        getParam();
+        strcpy(nonValOP, param);
+        if (sourceOP && targOP && !nonValOP) {
 
+        } else {
+            printf("The command %s you entered requires exactly two operands, a non valid number of operands was found %s",
+                   opcode);
+        }
+    } else {
+        printf("The command %s entered is not valid, Please eneter a valid command", opcode);
+    }
+}
+
+    void get_souceOP(int opInd,char * sourceOP){
+
+
+        if (sourceOP[0] == 35 && opTable[opInd].sourceMeth[0]==0)
+        {
+            char binary[21];
+            int num = atoi(*(sourceOP+1));
+            int2bin(num,binary,21);
+            strcpy(curCNode -> adress, (strcat(IC,);
+
+
+            else if(sourceOP[0] == 114 && opTable[opInd].sourceMeth[3]==3)
+            {
+
+
+                else
+                {
+                    printf("The input command %s can't be applied with the selected sorce operand %s", opTable[opInd].opName, sourceOP);
+                }
+
+            }
+
+        }
+    }
+}

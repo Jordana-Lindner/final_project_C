@@ -17,9 +17,9 @@ typedef struct{
 typedef struct SNode {
     Sign sign;
     struct SNode * next;
-}SNode;
+}symboleTabel;
 
-SNode* shead ;
+symboleTabel* sHead ;
 
 typedef union Data{
     int num;
@@ -29,9 +29,9 @@ typedef union Data{
 typedef struct DNode {
     Data data;
     struct DNode* next;
-}DNode;
+}dataNode;
 
-DNode* dhead;
+dataNode* dHead;
 
 void firstRun();
 void secondRun();

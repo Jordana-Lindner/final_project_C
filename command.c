@@ -1,5 +1,5 @@
-#define TOTAL_OP 16
-/*struc for operatons table*/
+/*#define TOTAL_OP 16
+*//*struc for operatons table*//*
 typedef struct{
     int opcode;
     int func;
@@ -18,7 +18,7 @@ typedef struct{
     int binCode[72];
     char *opName;
     char *opLabel;
-    
+
 }Code;
 
 typedef struct CNode {
@@ -27,7 +27,7 @@ typedef struct CNode {
 }CNode;
 
 CNode* Chead ;
-CNode *curCNode;
+CNode *curCNode;*/
 
 
 
@@ -124,11 +124,7 @@ void get_opcode(char *opcode){
     strcpy(nonValOP, param);
       if (sourceOP && targOP && !nonValOP)
       {
-         if (labelFlag)
-         {
-           addSign(label, "code", IC);
-           strcpy(curCNode ->opLabel,label);
-         }
+
       }  
       else 
       {
