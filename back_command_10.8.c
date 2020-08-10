@@ -13,7 +13,7 @@ int IC =100;
 
 
 typedef struct{
-    char adress[7];
+    int adress;
     int ICval;
     int binCode[72];
     char *opName;
@@ -27,7 +27,6 @@ typedef struct CNode {
 }CNode;
 
 CNode* Chead ;
-CNode *curCNode;
 
 
 
@@ -71,47 +70,37 @@ int validate_command(char *opcode){
 
 void get_souceOP(opInd,sourceOP,targOP){
   
- 
-  if (sourceOP[0] == 35 && opTable[opInd].sourceMeth[0]==0)
-   {
-     char binary[21];
+  char *  itoa ( int value, char * str, int base );
+  if (sourceOP[0] == 35)
+  {
      int num = atoi(*(sourceOP+1));
-     int2bin(num,binary,21);
-     strcpy(curCNode -> adress, (strcat(IC,);
-
-   
-   else if(sourceOP[0] == 114 && opTable[opInd].sourceMeth[3]==3)
-     {
-     
-   
-   else
-   {
-     printf("The input command %s can't be applied with the selected sorce operand %s", opTable[opInd].opName, sourceOP);
-   } 
-   
-     
-     
-     
-     
      
      
     
      
   
-// Convert an integer to binary (in a string)
-void int2bin(unsigned integer, char* binary, int n)
-{  
-  int i;
-  for (i=0;i<n;i++)   
-    binary[i] = (integer & (int)1<<(n-i-1)) ? '1' : '0';
-  binary[n]='\0';
-}
+void dec_to_binary(int decNum) 
+{ 
+    // array to store binary number 
+    int binaryNum[24]; 
+  
+    // counter for binary array 
+    int i = 0; 
+    while (decNum > 0) { 
+  
+        // storing remainder in binary array 
+        binaryNum[i] = decNum % 2; 
+        decNum = decNum / 2; 
+        i++; 
+    } 
+    // printing binary array in reverse order 
+    for (int j = i - 1; j >= 0; j--) 
+        cout << binaryNum[j]; 
+} 
 
 
 void get_opcode(char *opcode){
   char *sourceOP=null, *targOP=null; *nonValOP;
-  chead = (CNode *) malloc(sizeof(CNode));
-  curCNode = chead;
   if(opInd=validate_command(opcode)!=-1)
   {
     if (opTable[opInd].oprndN ==2){
