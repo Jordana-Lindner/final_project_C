@@ -21,6 +21,8 @@ typedef struct SNode {
 
 symboleTabel* sHead ;
 
+
+
 typedef union Data{
     int num;
     char ch;
@@ -32,6 +34,8 @@ typedef struct DNode {
 }dataNode;
 
 dataNode* dHead;
+
+
 
 void firstRun();
 void secondRun();

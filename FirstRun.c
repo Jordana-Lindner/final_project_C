@@ -13,6 +13,9 @@ void firstRun() {
     while (fgets(line, MAX_LENGTH, fp)) {
         /*points to first letter in line*/
         p = line;
+        if (*p == ';'){
+            continue;
+        }
         getParam();
         /*turn on flag if there is a sign*/
         labelFlag = isLabel(param);
@@ -48,13 +51,13 @@ void firstRun() {
             case 4: {
                 if(labelFlag){
                     printf("cant put .extern after label");
-                    return;
+                    continue;
                 }
                 getParam();
                 if (*param == '\n')
                 {
                     printf("missing extern label");
-                    return;
+                    continue;
                 }
                 addSign(param, "external", 0);
             }

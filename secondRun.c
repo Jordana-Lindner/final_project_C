@@ -5,7 +5,7 @@ void secondRun() {
     while (fgets(line, MAX_LENGTH, fp)) {
         p = line;
         getParam();
-        if(isLabel(param))
+        if(inLabelTab(param))
             getParam();
         switch (isGuide(param)){
             case 4:{

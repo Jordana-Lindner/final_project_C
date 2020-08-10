@@ -1,12 +1,11 @@
 
 #include "functionsForAssembler.h"
 
-
 /*checks of its a lable to turn on label flag*/
 bool isLabel(char param[50]) {
 
     int length = strlen(param);
-    if (*param < 'A' || (*param > 'Z' && *param < 'a') || *param > 'z')
+    if (!isalpha(*param))//*param < 'A' || (*param > 'Z' && *param < 'a') || *param > 'z')
         return 0;
     if (length > 1 && param[length - 1] == ':') {
         if (length >31){
@@ -15,6 +14,10 @@ bool isLabel(char param[50]) {
         }
         if (isGuide(param)){ /*need - or command or register or already is a label*/
             printf("unvalid name for label\n");
+            return 0;
+        }
+        if (inLabelTab(param)){
+            printf("alleardy is label with same name\n");
             return 0;
         }
         strcpy(label, param);
@@ -70,3 +73,16 @@ void int2bin(unsigned integer, char* binary, int n)
         binary[i] = (integer & (int)1<<(n-i-1)) ? '1' : '0';
     binary[n]='\0';
 }
+
+
+bool inLabelTab (char param[50]){
+    symboleTabel *curSNode;
+    curSNode = sHead;
+    while (curSNode != NULL){
+        if (strcmp(curSNode->sign.label, param)==0) {
+            return 1;
+        }
+        curSNode = curSNode->next;
+    }
+}
+
