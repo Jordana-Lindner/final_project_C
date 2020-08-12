@@ -1,4 +1,5 @@
-#include "assembler.h"
+
+#include "functionsForAssembler.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

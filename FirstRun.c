@@ -66,7 +66,7 @@ void firstRun() {
                 if (labelFlag) {
                     addSign(label, "code", IC);
                 }
-                get_opcode(param);
+                //get_opcode(param);
             }
                 break;
         }
@@ -96,17 +96,18 @@ void addString() {
     }
     p++;
     skipWhite();
-    if (!isalpha(*p)) { //maybe needs to be changed to isascii
+    if (!isascii(*p)) { //maybe needs to be changed to isascii
         printf("missing char\n");
         return;
     }
     /*while not end of line or end of string*/
     while (*p != '\0' && *p != '\"') {
+
         /*adds the char to data linked list*/
         curDNode->data.ch = *p;
         dataNode *newDNode = (dataNode *) malloc(sizeof(dataNode));
 
-        printf("%c\n", curDNode->data.ch);
+        printf("%d: %c\n",check ,curDNode->data.ch);
 
         curDNode->next = newDNode;
         curDNode = newDNode;
@@ -114,6 +115,7 @@ void addString() {
         DC++;
         p++;
         skipWhite();
+        check++;
     }
     /*check if last char is "*/
     if (*p != '\"') {
@@ -126,6 +128,13 @@ void addString() {
     curDNode->next = newDNode;
     curDNode = newDNode;
     DC++;
+
+    p++;
+    skipWhite();
+    if (*p != '\0'){
+        printf("extra input after .string\n");
+        return;
+    }
 
 }
 
@@ -167,8 +176,8 @@ void addData() {
     DC++;
 
 /*while not end of line*/
-    while (*p != '\0') {
-        check++;
+   while (*p != '\0') {
+
         /*if missing comma or mult commas*/
         if (!checkComma()) {
             return;
@@ -220,7 +229,13 @@ bool checkComma() {
     while (*p == ',') {
         counter++;
         p++;
+
         skipWhite();
+    }
+    /*if no data after comma*/
+    if (*p == '\0'){
+        printf("Missing Data after comma\n");
+        return false;
     }
     /*missing comma*/
     if (counter == 0) {
@@ -237,6 +252,11 @@ bool checkComma() {
 
 /*adds to sign table*/
 void addSign(char label[50], char character[50], int value) {
+
+    if (inLabelTab(label)) {
+    printf("This label is alradey decalared");
+    return;
+    }
 
     strcpy(curSNode->sign.label, label);
     curSNode->sign.value = (value);
@@ -284,7 +304,7 @@ void get_opcode(char *opcode) {
     }
 }
 
-    void get_souceOP(int opInd,char * sourceOP){
+ void get_souceOP(int opInd,char * sourceOP){
 
 
         if (sourceOP[0] == 35 && opTable[opInd].sourceMeth[0]==0)
@@ -308,4 +328,5 @@ void get_opcode(char *opcode) {
 
         }
     }
+
 }

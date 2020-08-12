@@ -31,9 +31,9 @@ bool isLabel(char param[50]) {
 /*gets parameter from line*/
 void getParam() {
     skipWhite();
-    if (sscanf(p, "%s", param)== EOF)
+    if ((sscanf(p, "%s", param))== 0)
     {
-      param[0] = "\0";
+      *param = '\0';
     }
     skipWhite();
     pointAfterParam();

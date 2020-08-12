@@ -8,7 +8,13 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdbool.h>
-#include "assembler.h"
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <stdbool.h>
 #define MAX_LENGTH 200
 
 
@@ -24,3 +30,39 @@ void getParam();
 void skipWhite();
 int isGuide(char *param);
 void int2bin(unsigned integer, char* binary, int n);
+
+
+
+typedef struct{
+    char label[50];
+    int value;
+    char car[50];
+}Sign;
+
+typedef struct SNode {
+    Sign sign;
+    struct SNode * next;
+}symboleTabel;
+
+symboleTabel* sHead;
+symboleTabel* curSNode;
+
+typedef union Data{
+    int num;
+    char ch;
+}Data;
+
+typedef struct DNode {
+    Data data;
+    struct DNode* next;
+}dataNode;
+
+
+dataNode* dHead;
+dataNode* curDNode;
+
+
+void firstRun();
+void secondRun();
+/*void secondRun();*/
+

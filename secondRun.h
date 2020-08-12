@@ -1,5 +1,5 @@
 
-#include "assembler.h"
+#include "functionsForAssembler.h"
 
 
 extern FILE *fp;

@@ -1,4 +1,4 @@
-#include "functionsForAssembler.h"
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,9 +19,8 @@ typedef struct SNode {
     struct SNode * next;
 }symboleTabel;
 
-symboleTabel* sHead ;
-
-
+symboleTabel* sHead;
+symboleTabel* curSNode;
 
 typedef union Data{
     int num;
@@ -33,8 +32,9 @@ typedef struct DNode {
     struct DNode* next;
 }dataNode;
 
-dataNode* dHead;
 
+dataNode* dHead;
+dataNode* curDNode;
 
 
 void firstRun();
