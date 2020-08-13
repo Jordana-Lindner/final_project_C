@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdbool.h>
-
+#include <math.h>
 #define TOTAL_OP 16
 
 int IC =100;
@@ -32,7 +32,7 @@ void addData();
 int validate_command(char *opcode);
 
 
-
+void fillin_op_table();
 
 void getVar();
 
@@ -44,6 +44,8 @@ bool labelFlag = 0;
 
 
 
+void get_opcode(char *opcode);
+
 /*struc for operatons table*/
 typedef struct{
     int opcode;
@@ -54,14 +56,15 @@ typedef struct{
     int oprndN;
 }op;
 
-op opTable[16];
+
 
 typedef struct{
-    char adress[7];
+    int adress;
     int ICval;
-    int binCode[72];
-    //char *opName;
-    //char *opLabel;
+    char binCode[24];
+    char opName[MAX_LENGTH];
+    char opLabel[MAX_LENGTH];
+    char operandLabel[MAX_LENGTH];
 
 }Code;
 
@@ -73,7 +76,6 @@ typedef struct CNode {
 CNode* Chead ;
 CNode *curCNode;
 
-void get_souceOP(int opInd, char * sourceOP);
 
 
-
+op opTable[16];

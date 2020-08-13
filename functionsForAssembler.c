@@ -31,10 +31,11 @@ bool isLabel(char param[50]) {
 /*gets parameter from line*/
 void getParam() {
     skipWhite();
-    if ((sscanf(p, "%s", param))== 0)
+    sscanf(p, "%s", param);
+   /* if ((sscanf(p, "%s", param))== 0)
     {
       *param = '\0';
-    }
+    }*/
     skipWhite();
     pointAfterParam();
 }
@@ -42,7 +43,8 @@ void getParam() {
 
 /*move pointer after last parameter*/
 void pointAfterParam() {
-    p += strlen(param);
+    //if (*p != '\n' && *p != '\0' )
+        p += strlen(param);
 }
 
 /*points pointer p after white space*/
@@ -65,14 +67,7 @@ int isGuide(char param[50]) {
     return 0;
 }
 
-// Convert an integer to binary (in a string)
-void int2bin(unsigned integer, char* binary, int n)
-{
-    int i;
-    for (i=0;i<n;i++)
-        binary[i] = (integer & (int)1<<(n-i-1)) ? '1' : '0';
-    binary[n]='\0';
-}
+
 
 
 bool inLabelTab (char param[50]){

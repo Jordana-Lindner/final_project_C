@@ -4,5 +4,12 @@ LABEL2:          .data  ,6 6 ,,7,
         .string "abcde"
 good123:    .string "  a  b      c               d       e       "
 bad123:    .string   a  b      c               d       e       "
-LABEL: .data 1 ,3
+LABEL123: .data 1 ,3
 CommaAfterString:    .string "  a  b      c               d       e       " ,
+    LABEL132:          add  1 lab1
+bne &XYZ
+END: stop
+sub r1 r4
+cmp
+dec K
+jmp &LOOP
