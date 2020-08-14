@@ -29,7 +29,7 @@ void pointAfterParam();
 void getParam();
 void skipWhite();
 int isGuide(char *param);
-void int2bin(unsigned integer, char* binary, int n);
+void int2bin(int integer, char* binary, int n);
 
 
 

@@ -14,7 +14,7 @@ int DC =0;
 extern FILE *fp;
 
 
-
+//char function[5];
 char label[50];
 
 bool isLabel(char param[50]);
@@ -61,7 +61,7 @@ typedef struct{
 typedef struct{
     int adress;
     int ICval;
-    char binCode[24];
+    char binCode[25];
     char opName[MAX_LENGTH];
     char opLabel[MAX_LENGTH];
     char operandLabel[MAX_LENGTH];

@@ -16,10 +16,10 @@ bool isLabel(char param[50]) {
             printf("unvalid name for label\n");
             return 0;
         }
-        if (inLabelTab(param)){
-            printf("alleardy is label with same name\n");
-            return 0;
-        }
+//        if (inLabelTab(param)){
+//            printf("alleardy is label with same name\n");
+//            return 0;
+//        }
         strcpy(label, param);
         return 1;
     }
@@ -74,6 +74,7 @@ bool inLabelTab (char param[50]){
     symboleTabel *curSNode;
     curSNode = sHead;
     while (curSNode != NULL){
+        printf("the sign labl of the table of symbols %s\n", curSNode-> sign.label);
         if (strcmp(curSNode->sign.label, param)==0) {
             return 1;
         }
