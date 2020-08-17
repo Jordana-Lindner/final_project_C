@@ -10,7 +10,11 @@ void secondRun() {
         switch (isGuide(param)){
             case 4:{
 
+
             }break;
         }
     }
+    free(sHead);
+    free(dHead);
+    free(Chead);
 }

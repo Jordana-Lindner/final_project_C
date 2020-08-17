@@ -16,10 +16,7 @@ bool isLabel(char param[50]) {
             printf("unvalid name for label\n");
             return 0;
         }
-//        if (inLabelTab(param)){
-//            printf("alleardy is label with same name\n");
-//            return 0;
-//        }
+
         strcpy(label, param);
         return 1;
     }
@@ -32,10 +29,10 @@ bool isLabel(char param[50]) {
 void getParam() {
     skipWhite();
     sscanf(p, "%s", param);
-   /* if ((sscanf(p, "%s", param))== 0)
-    {
-      *param = '\0';
-    }*/
+    /* if ((sscanf(p, "%s", param))== 0)
+     {
+       *param = '\0';
+     }*/
     skipWhite();
     pointAfterParam();
 }
@@ -44,7 +41,7 @@ void getParam() {
 /*move pointer after last parameter*/
 void pointAfterParam() {
     //if (*p != '\n' && *p != '\0' )
-        p += strlen(param);
+    p += strlen(param);
 }
 
 /*points pointer p after white space*/
@@ -71,14 +68,33 @@ int isGuide(char param[50]) {
 
 
 bool inLabelTab (char param[50]){
-    symboleTabel *curSNode;
-    curSNode = sHead;
-    while (curSNode != NULL){
-        printf("the sign labl of the table of symbols %s\n", curSNode-> sign.label);
-        if (strcmp(curSNode->sign.label, param)==0) {
+    symboleTabel *tempNode;
+    tempNode = sHead;
+    while (tempNode != NULL){
+        //printf("the sign labl of the table of symbols %s\n", tempNode-> sign.label);
+        if (strcmp(tempNode->sign.label, param)==0) {
             return 1;
         }
-        curSNode = curSNode->next;
+        tempNode = tempNode->next;
     }
+    return 0;
 }
 
+/*adds to sign table*/
+void addSign(char label[50], char character[50], int value) {
+
+    if (inLabelTab(label)) {
+        printf("This label is alradey decalared");
+        return;
+    }
+
+    strcpy(curSNode->sign.label, label);
+    curSNode->sign.value = (value);
+    strcpy(curSNode->sign.car, character);
+
+    symboleTabel *newSNode = (symboleTabel *) malloc(sizeof(symboleTabel));
+    curSNode->next = newSNode;
+    curSNode = newSNode;
+    curSNode->sign.label[0] = '\0';
+
+}

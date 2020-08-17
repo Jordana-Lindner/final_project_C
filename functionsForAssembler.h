@@ -62,6 +62,25 @@ dataNode* dHead;
 dataNode* curDNode;
 
 
+typedef struct{
+    int adress;
+    int ICval;
+    char binCode[25];
+    char opName[MAX_LENGTH];
+    char opLabel[MAX_LENGTH];
+    char operandLabel[MAX_LENGTH];
+
+}Code;
+
+typedef struct CNode {
+    Code code;
+    struct CNode * next;
+}CNode;
+
+CNode* Chead ;
+CNode *curCNode;
+
+
 void firstRun();
 void secondRun();
 /*void secondRun();*/

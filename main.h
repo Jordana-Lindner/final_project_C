@@ -8,8 +8,8 @@
 char filename[MAX_INPUT];
 char input[MAX_INPUT];
 
-void start();
+
 FILE *fp;
-int goodInput;
+
 
 
